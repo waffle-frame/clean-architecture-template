@@ -26,7 +26,10 @@ type HTTPRouter struct {
 
 // NewRouter ...
 func NewRouter() *HTTPRouter {
+	router := mux.NewRouter()
+	router = router.PathPrefix("/api").Subrouter()
+
 	return &HTTPRouter{
-		router: &mux.Router{},
+		router: router,
 	}
 }
