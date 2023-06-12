@@ -40,8 +40,14 @@ func (r *Response) WriterJSON(w http.ResponseWriter) error {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
+	// Checking for the existence of an error in the list
+	code := errorCode[r.Message]
+	if code == 0 {
+		code = 500
+	}
+
 	// Set status code of response
-	w.WriteHeader(errorCode[r.Message])
+	w.WriteHeader(code)
 	w.Write(body)
 
 	return nil
