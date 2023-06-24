@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/waffle-frame/clean-architecture-template/internal/entities"
 	"github.com/waffle-frame/clean-architecture-template/internal/service"
 	"github.com/waffle-frame/clean-architecture-template/internal/storage"
 	"github.com/waffle-frame/clean-architecture-template/internal/transport/http/handlers"
@@ -23,7 +22,6 @@ func main() {
 
 		service.Module,
 		storage.Module,
-		entities.Module,
 		handlers.Module,
 		router.Module,
 	)
