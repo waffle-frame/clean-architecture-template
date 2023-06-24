@@ -9,7 +9,20 @@ import (
 	"github.com/waffle-frame/clean-architecture-template/pkg/bootstrap/http/misc/response"
 )
 
-// HPingPong — test route to check server status
+// HPingPong — simple router to check server status
+// swagger:operation GET /ping Ping Ping
+//
+// Ping Pong!
+//
+// ## A simple router to check server status
+//
+// ---
+//
+// responses:
+//   200:
+//     description: Pong ! 🥎
+//     schema:
+//       "$ref": "#/responses/success/schema"
 func (h *Handler) HPingPong(rw http.ResponseWriter, r *http.Request) {
 	var resp response.Response
 	defer resp.WriterJSON(rw)

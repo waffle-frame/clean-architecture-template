@@ -52,3 +52,12 @@ func (r *Response) WriterJSON(w http.ResponseWriter) error {
 
 	return nil
 }
+
+
+// Build — ...
+func Build(err error, code ...int) *Response {
+	return &Response{
+		Message: err.Error(),
+		Payload: nil,
+	}
+}
