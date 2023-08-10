@@ -47,7 +47,7 @@ build: check-dependencies docs
 	@printf "${GREEN}[●]${NC} The project has successfully passed the build! Don't forget to reload the service\n"
 
 # TODO: Explain
-check-dependencies:
+check-dependencies: check-go-dependencies
 	@echo "[+] Check dependencies versions:"
 
 	@is_installed=1
@@ -81,6 +81,8 @@ check-dependencies:
 
 	@printf "\t%s\n" "All dependencies are installed" | expand -4;
 
+check-go-dependencies:
+	@echo "[+] Checking golang dependencies..."
 	@go mod tidy
 	@go mod download
 

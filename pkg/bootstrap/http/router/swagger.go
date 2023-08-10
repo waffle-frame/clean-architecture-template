@@ -8,7 +8,11 @@ import (
 
 // ConnectSwagger ...
 func (h *HTTPRouter) ConnectSwagger(file func(w http.ResponseWriter, r *http.Request)) {
-	swaggerOptions := middleware.SwaggerUIOpts{SpecURL: "/swagger.yaml"}
+	swaggerOptions := middleware.SwaggerUIOpts{
+		BasePath:         "/api",
+		SpecURL:          "/api/swagger.yaml",
+		Title:            "Clean Architecture",
+	}
 	sh := middleware.SwaggerUI(swaggerOptions, nil)
 
 	h.GET("/swagger.yaml", file)

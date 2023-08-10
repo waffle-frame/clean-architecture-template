@@ -1,4 +1,4 @@
-basePath: /{{replace_BasePath}}
+basePath: /api
 consumes:
     - application/json
 info:

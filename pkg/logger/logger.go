@@ -11,7 +11,7 @@ import (
 
 // InitLogger ...
 func InitLogger() (log *logrus.Logger) {
-	f, err := os.OpenFile("../log.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0777)
+	f, err := os.OpenFile("../log.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0o777)
 	if err != nil {
 		panic(err)
 	}
