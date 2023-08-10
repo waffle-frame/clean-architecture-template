@@ -1,20 +1,103 @@
-# TODO: ---
 PROJECTNAME=$(shell basename "$(PWD)")
 PID=/tmp/.$(PROJECTNAME)-api-server.pid
+
+# Colors
+NC=\033[0m
+RED=\033[91m
+GREEN=\033[92m
+
+# Project dependencies
+DEPENDENCIES = Golang="go version" \
+			Redis="redis-cli -v" \
+			Swagger="swagger version" \
+			Postgres="psql -V"
+
+# TODO: Feature. Install the necessary dependencies depending on the operating system
+OSFLAG :=
+ifeq ($(OS),Windows_NT)
+	OSFLAG += win32
+	ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+		OSFLAG += amd64
+	endif
+	ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+		OSFLAG += ia32
+	endif
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		OSFLAG += linux
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		OSFLAG += osx
+	endif
+		UNAME_P := $(shell uname -p)
+	ifeq ($(UNAME_P),x86_64)
+		OSFLAG += amd64
+	endif
+endif
+
+# Build
+# TODO: Implement loader
+# TODO: Add check for installed dependencies
+.PHONY: build
+build: check-dependencies docs
+	@echo "[+] Trying to build the application"
+	@cd ./cmd && go build -o $(PWD)/build/app
+
+	@printf "${GREEN}[●]${NC} The project has successfully passed the build! Don't forget to reload the service\n"
+
+# TODO: Explain
+check-dependencies: check-go-dependencies
+	@echo "[+] Check dependencies versions:"
+
+	@is_installed=1
+	@check () {
+		@$$(eval $$2 >/dev/null 2>&1)
+
+		@if [ $$? -eq "0" ]; then
+			@version=($$(eval $$2 | grep -oP "([0-9]{1,}\.[0-9]{1,}(\.[0-9]{1,})?)|(dev)"));
+			@printf '%s \t: ${GREEN}%s${NC}\n' $$1 $$version | expand -t 15;
+		else
+			@is_installed=0
+			@printf '%s \t: ${RED}%s${NC}\n' $$1 'Not installed' | expand -t 15;
+		fi
+		return 1
+	}
+
+	@IFS='='
+	@read -a strarr <<< "$$DEPENDENCIES"
+	@for key in $(DEPENDENCIES)
+	do
+		check $$key >/dev/null 2>&1;
+	done
+
+	@if [ $$is_installed -eq 0 ]; then
+		for key in $(DEPENDENCIES)
+		do
+			check $$key;
+		done
+		exit 1;
+	fi
+
+	@printf "\t%s\n" "All dependencies are installed" | expand -4;
+
+check-go-dependencies:
+	@echo "[+] Checking golang dependencies..."
+	@go mod tidy
+	@go mod download
+
 
 # Documentation generation
 .PHONY: docs
 docs:
-	# Generation
+	@echo "[+] Generation swagger file"
 	@swagger generate spec -o $(PWD)/pkg/docs/swagger.yaml
 	@swagger generate spec -m -o $(PWD)/pkg/docs/swagger.yaml
-
-# Build
-.PHONY: build
-build:
-	@cd ./cmd && go build -o $(PWD)/build/app
 
 # Run project as dev
 .PHONY: run
 run:
 	@cd ./cmd && go run main.go
+
+.ONESHELL:
+	pass

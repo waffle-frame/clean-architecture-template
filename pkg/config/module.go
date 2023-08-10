@@ -17,14 +17,6 @@ type Postgres struct {
 	DatabaseName string `mapstructure:"database_name"`
 }
 
-// Redis configuration
-type Redis struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	DBIndex  int    `json:"db_index"`
-	Password string `json:"password"`
-}
-
 // Server configuration
 type Server struct {
 	Host      string `json:"host"`
@@ -32,9 +24,12 @@ type Server struct {
 	SecretKey string `mapstructure:"secret_key"`
 }
 
-// Config ...
+// Config — struct is designed to combine the
+// structures used
+// 
+// Add or remove structures that are contained
+// in your `config.json` file to this structure
 type Config struct {
 	Postgres Postgres `json:"postgres"`
-	Redis    Redis    `json:"redis"`
 	Server   Server   `json:"server"`
 }
