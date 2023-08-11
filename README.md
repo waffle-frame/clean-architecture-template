@@ -102,7 +102,7 @@ To apply the changes, you need to run the command:
 make docs
 ```
 
-## Step 3. Run
+### Step 3. Run
 
 To run in development mode, use the command:
 
