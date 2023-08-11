@@ -24,7 +24,7 @@ The main idea of Clean Architecture is to divide the program into layers, where 
       - [2.1 Database creation](#21-database-creation)
       - [2.2 Сonfiguration file setup](#22-сonfiguration-file-setup)
       - [2.3 Swagger setup (Option)](#23-swagger-setup-option)
-  - [Step 3. Run](#step-3-run)
+    - [Step 3. Run](#step-3-run)
   - [TODO](#todo)
 
 <!-- /code_chunk_output -->
