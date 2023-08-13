@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 PROJECTNAME=$(shell basename "$(PWD)")
 PID=/tmp/.$(PROJECTNAME)-api-server.pid
 
@@ -11,30 +12,6 @@ DEPENDENCIES = Golang="go version" \
 			Redis="redis-cli -v" \
 			Swagger="swagger version" \
 			Postgres="psql -V"
-
-# TODO: Feature. Install the necessary dependencies depending on the operating system
-OSFLAG :=
-ifeq ($(OS),Windows_NT)
-	OSFLAG += win32
-	ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
-		OSFLAG += amd64
-	endif
-	ifeq ($(PROCESSOR_ARCHITECTURE),x86)
-		OSFLAG += ia32
-	endif
-else
-	UNAME_S := $(shell uname -s)
-	ifeq ($(UNAME_S),Linux)
-		OSFLAG += linux
-	endif
-	ifeq ($(UNAME_S),Darwin)
-		OSFLAG += osx
-	endif
-		UNAME_P := $(shell uname -p)
-	ifeq ($(UNAME_P),x86_64)
-		OSFLAG += amd64
-	endif
-endif
 
 # Build
 # TODO: Implement loader
@@ -55,7 +32,7 @@ check-dependencies: check-go-dependencies
 		@$$(eval $$2 >/dev/null 2>&1)
 
 		@if [ $$? -eq "0" ]; then
-			@version=($$(eval $$2 | grep -oP "([0-9]{1,}\.[0-9]{1,}(\.[0-9]{1,})?)|(dev)"));
+			@version=$$(eval $$2 | grep -oP "([0-9]{1,}\.[0-9]{1,}(\.[0-9]{1,})?)|(dev)" | head -1);
 			@printf '%s \t: ${GREEN}%s${NC}\n' $$1 $$version | expand -t 15;
 		else
 			@is_installed=0
