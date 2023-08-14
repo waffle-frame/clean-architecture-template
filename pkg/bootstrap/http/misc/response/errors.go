@@ -25,7 +25,7 @@ var errorCode = map[string]int{
 	ErrBadRequest.Error():         400,
 	ErrDataNotFound.Error():       404,
 	ErrInternalServer.Error():     500,
-	ErrLimitExceeded.Error():      419,
+	ErrLimitExceeded.Error():      429,
 	ErrNoContent.Error():          201,
 	ErrNotImplementation.Error():  501,
 	ErrSomethingWentWrong.Error(): 500,
