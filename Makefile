@@ -53,7 +53,7 @@ check-dependencies: check-go-dependencies
 		do
 			check $$key;
 		done
-		exit 1;
+		exit 1
 	fi
 
 	@printf "\t%s\n" "All dependencies are installed" | expand -4;
