@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"net"
 	"net/http"
 
 	"github.com/waffle-frame/clean-architecture-template/pkg/bootstrap/http/router"
@@ -22,10 +23,11 @@ type Dependecies struct {
 
 // NewServer ...
 func NewServer(params Dependecies) *http.Server {
-	url := fmt.Sprintf("%s:%s", params.Config.Server.Host, fmt.Sprint(params.Config.Server.Port))
+	url := net.JoinHostPort(params.Config.Server.Host, fmt.Sprint(params.Config.Server.Port))
 
 	return &http.Server{
-		Addr:    url,
-		Handler: params.Router,
+		MaxHeaderBytes: 32 << 20, // 32 Mb
+		Addr:           url,
+		Handler:        params.Router,
 	}
 }
