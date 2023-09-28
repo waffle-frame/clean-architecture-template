@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // Postgres ...
@@ -30,6 +31,7 @@ func Postgres(params Dependencies) (pdb *gorm.DB) {
 		&gorm.Config{
 			DisableAutomaticPing:                     true,
 			DisableForeignKeyConstraintWhenMigrating: true,
+			Logger:                                   logger.Default.LogMode(logger.Info),
 		},
 	)
 	if err != nil {
