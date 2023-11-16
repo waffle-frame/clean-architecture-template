@@ -3,6 +3,7 @@ package router
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
 // ChainsMiddlewares ...
@@ -24,7 +25,14 @@ func (h *HTTPRouter) Handle(method string, pattern string, handler http.HandlerF
 }
 
 func (h *HTTPRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.URL)
+	if r.Method != "OPTIONS" {
+		log.Printf("\033[0;32m%s\033[0m \033[0;36m%s\033[0m %s",
+			r.Method,
+			r.RequestURI,
+			time.Since(time.Now()),
+		)
+	}
+
 	h.router.ServeHTTP(w, r)
 }
 
