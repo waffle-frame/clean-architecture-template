@@ -11,10 +11,10 @@ import (
 // Postgres ...
 func Postgres(params Dependencies) (pdb *gorm.DB) {
 	connStr := fmt.Sprintf(
-		"host=%s port=%s dbname=%s user=%s password=%s sslmode=%s",
+		"host=%s port=%d dbname=%s user=%s password=%s sslmode=%s",
 
 		params.Config.Postgres.Host,
-		fmt.Sprint(params.Config.Postgres.Port),
+		params.Config.Postgres.Port,
 		params.Config.Postgres.DatabaseName,
 		params.Config.Postgres.Username,
 		params.Config.Postgres.Password,
